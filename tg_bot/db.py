@@ -21,4 +21,7 @@ class DataBaseManager:
             f'''SELECT id_user, first_name, nickname FROM users WHERE 
             id_user = {id_user};'''
         )
-        return str(self.cursor.fetchone())
+        is_exists = self.cursor.fetchone()
+        self.connection.close
+        
+        return str(is_exists)
