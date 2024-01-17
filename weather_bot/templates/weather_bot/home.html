@@ -1,0 +1,53 @@
+{% load bootstrap5 %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,
+     shrink-to-fit=no">
+    <title>WeatherBot</title>
+
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'weather_bot:home' %}">
+            <h1>WeatherBot</h1></a>
+    </div>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+            <button type="button" class="btn btn-outline-secondary"><h4>
+                <a class="navbar-brand" href="https://t.me/weather_bek_bot">
+                    Регистрация в телеграм боте</a></h4></button>
+        </ul>
+    </div>
+</nav>
+</br>
+<div class="container-fluid">
+    <h2>Зарегистрированные пользователи:</h2>
+    </br>
+    {% for p in profiles %}
+    <div>
+        <h5>- {{p.first_name}} ({{p.nickname}})</h5>
+        <form action="{% url 'weather_bot:send_weather' p.id %}"
+              method="post" class="form">
+            {% csrf_token %}
+            {% buttons %}
+            <p>
+                <button name="submit" class="btn btn-secondary">
+                    Отправить пользователю {{p.first_name}} погоду в Москве
+                </button>
+            </p>
+            {% endbuttons %}
+        </form>
+    </div>
+    {% empty %}
+    <h3>Ни один пользователь ещё не зарегистрирован</h3>
+    {% endfor %}
+</div>
+</body>
+</html>
